@@ -26,9 +26,18 @@ class _MyQRCodeScanPageState extends State<MyQRCodeScanPage> {
         if (barcodeResult.code != null) {
           scannedQRCode = barcodeResult.code!;
         }
-        Get.snackbar('QRCode Scanner Result', 'Scanned QRCode: $scannedQRCode',
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.lightBlue);
+        if (scannedQRCode != '-1') {
+          Get.snackbar(
+              'QRCode Scanner Result', 'Scanned QRCode: $scannedQRCode',
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.lightBlue,
+              colorText: Colors.white);
+        } else {
+          Get.snackbar('QRCode Scanner Result', 'No Data Fetched',
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.lightBlue,
+              colorText: Colors.white);
+        }
       });
     });
   }
@@ -37,9 +46,17 @@ class _MyQRCodeScanPageState extends State<MyQRCodeScanPage> {
     try {
       scannedQRCode = await FlutterBarcodeScanner.scanBarcode(
           '#FF6666', 'Cancel', true, ScanMode.QR);
-      Get.snackbar('Barcode Scan Result', 'Scanned QRCode: $scannedQRCode',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.lightBlue);
+      if (scannedQRCode != '-1') {
+        Get.snackbar('Barcode Scan Result', 'Scanned QRCode: $scannedQRCode',
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.lightBlue,
+            colorText: Colors.white);
+      } else {
+        Get.snackbar('QRCode Scanner Result', 'No Data Fetched',
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.lightBlue,
+            colorText: Colors.white);
+      }
     } on PlatformException {}
   }
 
@@ -54,7 +71,15 @@ class _MyQRCodeScanPageState extends State<MyQRCodeScanPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Below is QR Code Scanner:'),
+            const Divider(thickness: 1, color: Colors.grey),
+            const Text(
+              'QR Code Scanner:',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: Colors.black,
+              ),
+            ),
             SizedBox(
               height: 300,
               width: Get.width * 0.70,
@@ -72,12 +97,21 @@ class _MyQRCodeScanPageState extends State<MyQRCodeScanPage> {
               ),
             ),
             const SizedBox(height: 20),
+            const Divider(thickness: 1, color: Colors.grey),
+            const Text(
+              'QR Code Scanner2:',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: Colors.black,
+              ),
+            ),
             ElevatedButton(
               style:
                   ElevatedButton.styleFrom(backgroundColor: Colors.lightBlue),
               onPressed: _scanQRCode,
               child: const Text(
-                'Click To Use Barcode Scanner',
+                'Use Barcode Scanner',
               ),
             ),
           ],
